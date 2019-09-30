@@ -2,8 +2,10 @@ import numpy
 import random
 import pickle
 import os.path
+import state
 
-LENGTH = 101
+LENGTH = 10
+num_grids = 50
 grid_list = []
 
 def generate_neighbors(cell):
@@ -20,7 +22,7 @@ def generate_neighbors(cell):
 
 def generate_grid():
   global grid_list
-  grid = numpy.zeros((LENGTH, LENGTH))
+  grid = [[state.State("NULL") for _ in range(LENGTH)] for _ in range(LENGTH)]
   visited = []
   stack = []
   current_cell = [random.randint(0, LENGTH - 1), random.randint(0, LENGTH - 1)]
@@ -41,13 +43,13 @@ def generate_grid():
       if(random.randint(0, 9) > 2):
         stack.append(current_cell)
       else:
-        grid[current_cell[0], current_cell[1]] = 1
+        grid[current_cell[0]][current_cell[1]].setBlocked()
     elif(len(neighbors) == 1):
       next_cell = neighbors[0]
       if(random.randint(0, 9) > 2):
         stack.append(current_cell)
       else:
-        grid[current_cell[0], current_cell[1]] = 1
+        grid[current_cell[0]][current_cell[1]].setBlocked()
     elif(len(stack) != 0):
       next_cell = stack.pop()
     else:
@@ -58,7 +60,7 @@ def generate_grid():
       if(random.randint(0, 9) > 2):
         stack.append(current_cell)
       else:
-        grid[current_cell[0], current_cell[1]] = 1
+        grid[current_cell[0]][current_cell[1]].setBlocked()
 
     current_cell = [next_cell[0], next_cell[1]]
     if(len(visited) % 1000 == 0):
@@ -71,7 +73,8 @@ def grid_in_list(grid, grid_list):
 
 def generate_grid_list():
   global grid_list
-  while(len(grid_list) < 5):
+  global num_grids
+  while(len(grid_list) < num_grids):
     print('GRID # ' + str(len(grid_list)))
     grid = generate_grid()
     if(not grid_in_list(grid, grid_list)):
@@ -96,4 +99,4 @@ def get_grid_list():
 
 def get_random_grid():
   global grid_list
-  return grid_list[random.randint(0, len(grid_list))]
+  return grid_list[random.randint(0, len(grid_list) - 1)]

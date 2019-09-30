@@ -7,6 +7,9 @@ if(os.path.isfile('grids')):
 else:
 	grid_generator.generate_grid_list()
 	grid_generator.save_grid_list()
-	
+
 grid = grid_generator.get_random_grid()
-print(grid)
+for g in grid:
+	for i in g:
+		print(i.toString(), end=" ")
+	print("")
