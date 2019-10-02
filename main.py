@@ -13,8 +13,8 @@ else:
 
 grid = grid_generator.get_random_grid()
 
-i = random.randint(0, 10) #goal x
-j = random.randint(0, 10) #goal y
+i = random.randint(0, grid.get_gridLength()) #goal x
+j = random.randint(0, grid.get_gridLength()) #goal y
 
 grid[i][j].setGoal()
 
