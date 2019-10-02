@@ -1,6 +1,6 @@
 class State:
     def __init__(self, counter):
-        self.gValue = float("inf")
+        self.gValue = float("inf") 
         self.hValue = 0
         self.fValue = float("inf") #g + h
         self.isGoal = False
