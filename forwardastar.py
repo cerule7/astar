@@ -1,4 +1,4 @@
-import openList
+from openList import openList
 import grid_generator
 
 def make_path(cameFrom, current):
@@ -23,10 +23,11 @@ def traverse_grid(start_state, grid):
 		closed_list.append(current)
 
 		# if it's the goal, return path to goal
-		if(current.isGoal()):
+		if(current.isGoal):
 			return make_path(cameFrom, current)
 
 		neighbors = grid_generator.generate_neighbors(current)
+		neighbors = [grid[n[0]][n[1]] for n in neighbors]
 		for n in neighbors:
 			if(n in closed_list):
 				continue

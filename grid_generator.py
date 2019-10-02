@@ -10,19 +10,19 @@ grid_list = []
 
 def generate_neighbors(cell):
   neighbors = []
-  if(cell[0] - 1 >= 0):
-    neighbors.append([cell[0] - 1, cell[1]])
-  if(cell[0] + 1 < LENGTH):
-    neighbors.append([cell[0] + 1, cell[1]])
-  if(cell[1] - 1 >= 0):
-    neighbors.append([cell[0], cell[1] - 1])
-  if(cell[1] + 1 < LENGTH):
-    neighbors.append([cell[0], cell[1] + 1])
+  if(cell.x - 1 >= 0):
+    neighbors.append([cell.x - 1, cell.y])
+  if(cell.x + 1 < LENGTH):
+    neighbors.append([cell.x + 1, cell.y])
+  if(cell.y - 1 >= 0):
+    neighbors.append([cell.x, cell.y - 1])
+  if(cell.y + 1 < LENGTH):
+    neighbors.append([cell.x, cell.y + 1])
   return neighbors
 
 def generate_grid():
   global grid_list
-  grid = [[state.State("NULL") for _ in range(LENGTH)] for _ in range(LENGTH)]
+  grid = [[state.State(i, j, 0) for i in range(LENGTH)] for j in range(LENGTH)]
   visited = []
   stack = []
   current_cell = [random.randint(0, LENGTH - 1), random.randint(0, LENGTH - 1)]

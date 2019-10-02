@@ -1,12 +1,16 @@
 class State:
-    def __init__(self, counter):
+    def __init__(self, x, y, counter):
         self.gValue = float("inf") 
         self.hValue = 0
         self.fValue = float("inf") #g + h
         self.isGoal = False
         self.isBlock = False
+        self.isPath = False
+        self.isStart = False
         self.isOccupied = False
         self.search = counter
+        self.x = x
+        self.y = y
 
     def set_gValue(self, g):
         self.gValue = g
@@ -38,9 +42,24 @@ class State:
     def setBlocked(self):
         self.isBlock = True
 
+    def setStart(self):
+        self.isStart = True
+
+    def setGoal(self):
+        self.isGoal = True
+
+    def setPath(self):
+        self.isPath = True
+
     def toString(self):
         if(self.isBlock):
             return 'X'
+        elif(self.isGoal):
+            return 'G'
+        elif(self.isStart):
+            return 'S'
+        elif(self.isPath):
+            return '*'
         else:
             return '_'
 
