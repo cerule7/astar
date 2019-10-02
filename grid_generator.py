@@ -10,14 +10,14 @@ grid_list = []
 
 def generate_neighbors(cell):
   neighbors = []
-  if(cell.x - 1 >= 0):
-    neighbors.append([cell.x - 1, cell.y])
-  if(cell.x + 1 < LENGTH):
-    neighbors.append([cell.x + 1, cell.y])
-  if(cell.y - 1 >= 0):
-    neighbors.append([cell.x, cell.y - 1])
-  if(cell.y + 1 < LENGTH):
-    neighbors.append([cell.x, cell.y + 1])
+  if(cell.getX() - 1 >= 0):
+    neighbors.append([cell.getX() - 1, cell.getY()])
+  if(cell.getX() + 1 < LENGTH):
+    neighbors.append([cell.getX() + 1, cell.getY()])
+  if(cell.getY() - 1 >= 0):
+    neighbors.append([cell.getX(), cell.getY() - 1])
+  if(cell.getY() + 1 < LENGTH):
+    neighbors.append([cell.getX(), cell.getY() + 1])
   return neighbors
 
 def generate_grid():

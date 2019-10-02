@@ -1,5 +1,5 @@
 class State:
-    def __init__(self, x, y, counter):
+    def __init__(self, a, b, counter):
         self.gValue = float("inf") 
         self.hValue = 0
         self.fValue = float("inf") #g + h
@@ -9,8 +9,14 @@ class State:
         self.isStart = False
         self.isOccupied = False
         self.search = counter
-        self.x = x
-        self.y = y
+        self.x = a
+        self.y = b
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
 
     def set_gValue(self, g):
         self.gValue = g
