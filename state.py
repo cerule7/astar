@@ -1,12 +1,21 @@
 class State:
     def __init__(self, counter):
-        self.gValue = 0
+        self.gValue = float("inf")
         self.hValue = 0
-        self.fValue = self.gValue + self.hValue
+        self.fValue = float("inf") #g + h
         self.isGoal = False
         self.isBlock = False
         self.isOccupied = False
         self.search = counter
+
+    def set_gValue(self, g):
+        self.gValue = g
+
+    def set_hValue(self, h):
+        self.hValue = h
+
+    def set_fValue(self, f):
+        self.fValue = f
 
     def get_gValue(self):
         return self.gValue

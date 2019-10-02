@@ -37,7 +37,6 @@ def generate_grid():
     neighbors = [n for n in neighbors if n not in visited]
 
     # if multiple neighbors choose randomly, else choose 1st one, else backtrack, else go to a random cell
-    # if a cell is 1 it's blocked, if it's 0 it's unblocked
     if(len(neighbors) > 1):
       next_cell = neighbors[random.randint(0, len(neighbors) - 1)]
       if(random.randint(0, 9) > 2):

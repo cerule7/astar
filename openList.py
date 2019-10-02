@@ -11,11 +11,13 @@ class openList:
     def addToOpenList(self, state):
         self.stateList.append(state)
         self.bubbleUp(len(self.stateList)-1)
+
     def isEmpty(self):
         if len(self.stateList) <= 1:
             return True
         else:
             return False
+
     def swap(self, i, j):
         self.stateList[i], self.stateList[j] = self.stateList[j], self.stateList[i]
 
@@ -38,6 +40,7 @@ class openList:
             if self.stateList[parent].fValue > self.stateList[i].fValue:
                 self.swap(parent,i)
                 self.bubbleUp(parent)
+                
     def bubbleDown(self, i):
         leftChild = i*2
         rightChild = (i*2)+1
