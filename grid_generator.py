@@ -99,6 +99,3 @@ def get_grid_list():
 def get_random_grid():
   global grid_list
   return grid_list[random.randint(0, len(grid_list) - 1)]
-
-def get_gridLength():
-    return LENGTH

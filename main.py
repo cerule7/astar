@@ -13,8 +13,8 @@ else:
 
 grid = grid_generator.get_random_grid()
 
-i = random.randint(0, grid.get_gridLength()) #goal x
-j = random.randint(0, grid.get_gridLength()) #goal y
+i = random.randint(0, len(grid) - 1) #goal x
+j = random.randint(0, len(grid) - 1) #goal y
 
 grid[i][j].setGoal()
 
@@ -25,8 +25,8 @@ for g in grid:
 		print(i.toString(), end=" ")
 	print("")
 
-x = random.randint(0, 10) #start x
-y = random.randint(0, 10) #start y
+x = random.randint(0, len(grid) - 1) #start x
+y = random.randint(0, len(grid) - 1) #start y
 
 grid[x][y].setStart()
 
