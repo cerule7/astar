@@ -17,6 +17,13 @@ i = random.randint(0, len(grid) - 1) #goal x
 j = random.randint(0, len(grid) - 1) #goal y
 
 grid[i][j].setGoal()
+grid[i][j].isBlock = False
+
+x = random.randint(0, len(grid) - 1) #start x
+y = random.randint(0, len(grid) - 1) #start y
+
+grid[x][y].setStart()
+grid[x][y].isBlock = False
 
 grid = hValue_gen.generate_hValue(grid, i, j)
 
@@ -25,11 +32,6 @@ for g in grid:
 		print(i.toString(), end=" ")
 	print("")
 
-x = random.randint(0, len(grid) - 1) #start x
-y = random.randint(0, len(grid) - 1) #start y
-
-grid[x][y].setStart()
-
 print('forward a star')
-result = forwardastar.traverse_grid(grid[x][y], grid)
+result = forwardastar.traverse_grid(state.State(x, y, 0), grid)
 print(result)
