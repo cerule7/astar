@@ -1,16 +1,16 @@
 class State:
     def __init__(self, a, b, counter):
-        self.gValue = float("inf") 
+        self.x = b
+        self.y = a
+        self.gValue = 9999
         self.hValue = 0
-        self.fValue = float("inf") #g + h
+        self.fValue = 9999 #g + h
         self.isGoal = False
         self.isBlock = False
         self.isPath = False
         self.isStart = False
         self.isOccupied = False
         self.search = counter
-        self.x = a
-        self.y = b
 
     def getX(self):
         return self.x
@@ -68,6 +68,3 @@ class State:
             return '*'
         else:
             return '_'
-
-
-

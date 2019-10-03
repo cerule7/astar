@@ -4,20 +4,21 @@ import pickle
 import os.path
 import state
 
-LENGTH = 10
+LENGTH = 5
 num_grids = 50
 grid_list = []
 
+
 def generate_neighbors(cell):
   neighbors = []
-  if(cell.getX() - 1 >= 0):
-    neighbors.append([cell.getX() - 1, cell.getY()])
-  if(cell.getX() + 1 < LENGTH):
-    neighbors.append([cell.getX() + 1, cell.getY()])
-  if(cell.getY() - 1 >= 0):
-    neighbors.append([cell.getX(), cell.getY() - 1])
-  if(cell.getY() + 1 < LENGTH):
-    neighbors.append([cell.getX(), cell.getY() + 1])
+  if(cell[0] - 1 >= 0):
+    neighbors.append([cell[0] - 1, cell[1]])
+  if(cell[0] + 1 < LENGTH):
+    neighbors.append([cell[0] + 1, cell[1]])
+  if(cell[1] - 1 >= 0):
+    neighbors.append([cell[0], cell[1] - 1])
+  if(cell[1] + 1 < LENGTH):
+    neighbors.append([cell[0], cell[1] + 1])
   return neighbors
 
 def generate_grid():

@@ -35,3 +35,17 @@ for g in grid:
 print('forward a star')
 result = forwardastar.traverse_grid(state.State(x, y, 0), grid)
 print(result)
+if(result == 'failed'):
+	print('no path to goal found')
+else:
+	for s in result:
+		print(str(s.x) + " " + str(s.y))
+		if(not grid[s.x][s.y].isGoal and not grid[s.x][s.y].isStart):
+			grid[s.x][s.y].setPath()
+			grid[s.x][s.y].isPath = True
+		print(s.toString())
+
+	for g in grid:
+		for i in g:
+			print(i.toString(), end=" ")
+		print("")
