@@ -22,6 +22,10 @@ grid[i][j].isBlock = False
 x = random.randint(0, len(grid) - 1) #start x
 y = random.randint(0, len(grid) - 1) #start y
 
+#check start does not equal goal:
+while x == i:
+	x = random.randint(0, len(grid) - 1)
+
 grid[x][y].setStart()
 grid[x][y].isBlock = False
 
