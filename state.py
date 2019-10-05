@@ -2,6 +2,7 @@ class State:
     def __init__(self, a, b, counter):
         self.x = b
         self.y = a
+        self.parent = None
         self.gValue = 9999
         self.hValue = 0
         self.fValue = 9999 #g + h
@@ -11,6 +12,10 @@ class State:
         self.isStart = False
         self.isOccupied = False
         self.search = counter
+
+
+    def getParent(self):
+        return self.parent
 
     def getX(self):
         return self.x
