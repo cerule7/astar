@@ -34,7 +34,7 @@ def traverse_grid(goal_state, grid):
                 continue
 
             # distance from one node to another is 1
-            new_gScore = current.get_gValue() + 1
+            new_gScore = current.get_gValue()- 1
 
             if(n in open_list.stateList):
                 if n.get_gValue() > new_gScore:

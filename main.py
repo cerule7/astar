@@ -51,7 +51,6 @@ for g in grid:
 print('backward a star found: ')
 
 grid = grid_generator.reset(grid)
-
 result = backwardastar.traverse_grid(state.State(j, i, 0), grid)
 
 if (result == 'failed'):
