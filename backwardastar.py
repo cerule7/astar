@@ -9,19 +9,19 @@ def make_path(current):
         current = current.parent
     return path
 
-def traverse_grid(start_state, grid):
-    open_list = openList(start_state)
+def traverse_grid(goal_state, grid):
+    open_list = openList(goal_state)
     closed_list = []
 
-    start_state.set_gValue(0)
-    start_state.set_fValue(start_state.get_hValue)
+    goal_state.set_gValue(0)
+    goal_state.set_fValue(goal_state.get_hValue)
     while(not open_list.isEmpty()):
         # get lowest f score node from open list
         current = open_list.pop()
         closed_list.append(current)
 
-        # if it's the goal, return path to goal
-        if(current.isGoal):
+        # if it's the start, return path to start
+        if(current.isStart):
             return make_path(current)
 
         neighbors = grid_generator.generate_neighbors([current.x, current.y])

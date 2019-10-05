@@ -13,7 +13,6 @@ class State:
         self.isOccupied = False
         self.search = counter
 
-
     def getParent(self):
         return self.parent
 

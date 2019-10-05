@@ -8,6 +8,13 @@ LENGTH = 5
 num_grids = 50
 grid_list = []
 
+#this sets isPath and parent to False for the whole grid
+def reset(grid):
+    for i in grid:
+        for j in i:
+            j.isPath = False
+            j.parent = None
+    return grid
 
 def generate_neighbors(cell):
   neighbors = []
