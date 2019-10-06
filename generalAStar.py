@@ -31,7 +31,7 @@ def astar(start, goal, grid):
 			if(position.isBlock):
 				print('{} {} is blocked'.format(position.x, position.y))
 				blockedList.append(position)
-				agentPosition = position.parent
+				#agentPosition = position.parent
 				print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
 				break
 			agentPosition = position
@@ -39,3 +39,4 @@ def astar(start, goal, grid):
 		print(vars(agentPosition))
 
 	return truePath
+
