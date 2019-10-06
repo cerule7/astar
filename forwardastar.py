@@ -3,34 +3,50 @@ import grid_generator
 
 def make_path(current):
     path = []
-    while current.getParent():
-        current.isPath = True
+    while (current is not None):
         path.append(current)
         current = current.parent
+    path.reverse()
     return path
 
-def traverse_grid(start_state, grid):
+def traverse_grid(start_state, blockList, grid):
     open_list = openList(start_state)
     closed_list = []
+    print('starting position is {} {}'.format(start_state.x, start_state.y))
 
     start_state.set_gValue(0)
-    start_state.set_fValue(start_state.get_hValue)
+    start_state.set_fValue(start_state.get_hValue())
+
+    neighbors = grid_generator.generate_neighbors([start_state.x, start_state.y])
+    neighbors = [grid[n[0]][n[1]] for n in neighbors]
+
+    for n in neighbors:
+        print('n position is {} {}'.format(n.x, n.y))
+        if n in blockList:
+            print('in blocklist')
+            continue
+        if(n.isBlock):
+            print('added to blocklist')
+            n.set_gValue(9999)
+            blockList.append(n)
+        else:
+            print('added to open list')
+            n.set_gValue(1)
+            open_list.addToOpenList(n)
+
     while(not open_list.isEmpty()):
         # get lowest f score node from open list
         current = open_list.pop()
         closed_list.append(current)
-
+        print('{} {} is current'.format(current.x, current.y))
         # if it's the goal, return path to goal
         if(current.isGoal):
-            return make_path(current)
+            return [blockList, make_path(current)]
 
         neighbors = grid_generator.generate_neighbors([current.x, current.y])
         neighbors = [grid[n[0]][n[1]] for n in neighbors]
         for n in neighbors:
-            if(n in closed_list):
-                continue
-            if(n.isBlock):
-                closed_list.append(n)
+            if(n in closed_list or n in blockList):
                 continue
 
             # distance from one node to another is 1
@@ -46,4 +62,4 @@ def traverse_grid(start_state, grid):
                 n.set_fValue(n.get_gValue() + n.get_hValue())
                 open_list.addToOpenList(n)
 
-    return "failed"
+    return [blockList, "failed"]

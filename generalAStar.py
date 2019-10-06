@@ -4,5 +4,35 @@ import grid_generator
 import state
 import forwardastar
 import backwardastar
-#just decided to import everything for the time being
-def astar(start, goal, grid): #and other parameters if needed
+
+def astar(start, goal, grid):
+	print('start is {} {}'.format(start.x, start.y))
+	print('goal is {} {}'.format(goal.x, goal.y))
+
+	truePath = []
+	agentPosition = start
+	blockedList = []
+	while (not agentPosition.isGoal):
+
+		blockedList, result = forwardastar.traverse_grid(agentPosition, blockedList, grid)
+
+		if(result == "failed"):
+			return "failed"
+
+		print([(s.x, s.y) for s in blockedList])
+		print([(s.x, s.y) for s in result])
+		print([(s.x, s.y) for s in truePath])
+
+		for position in result:
+			if(position.isBlock):
+				print('{} {} is blocked'.format(position.x, position.y))
+				blockedList.append(position)
+				agentPosition = position.parent
+				print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
+				break
+			agentPosition = position
+			truePath.append(position)
+		print(vars(agentPosition))
+
+	return truePath
+

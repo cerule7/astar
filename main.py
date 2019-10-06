@@ -5,6 +5,7 @@ import hValue_gen
 import random
 import forwardastar
 import backwardastar
+import generalAStar
 
 if (os.path.isfile('grids')):
     grid_generator.load_grid_list()
@@ -32,9 +33,12 @@ grid[x][y].isBlock = False
 
 grid = hValue_gen.generate_hValue(grid, i, j)
 
+print('goal is {} {}'.format(i, j))
+print('start is {} {}'.format(x, y))
+
 print('forward a star found: ')
 
-result = forwardastar.traverse_grid(state.State(y, x, 0), grid)
+result = generalAStar.astar(state.State(y, x, 0), state.State(j, i, 0), grid)
 
 if (result == 'failed'):
     print('no path to goal found')
@@ -42,26 +46,10 @@ else:
     for s in result:
         if (not grid[s.x][s.y].isGoal and not grid[s.x][s.y].isStart):
             grid[s.x][s.y].isPath = True
+        print('path is {} {}'.format(s.x, s.y))
+
 
 for g in grid:
     for k in g:
         print(k.toString(), end = " ")
     print("")
-
-print('backward a star found: ')
-
-grid = grid_generator.reset(grid)
-result = backwardastar.traverse_grid(state.State(j, i, 0), grid)
-
-if (result == 'failed'):
-    print('no path to goal found')
-else:
-    for s in result:
-        if (not grid[s.x][s.y].isGoal and not grid[s.x][s.y].isStart):
-            grid[s.x][s.y].isPath = True
-
-for g in grid:
-    for k in g:
-        print(k.toString(), end = " ")
-    print("")
-
