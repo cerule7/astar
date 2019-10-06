@@ -7,6 +7,8 @@ import forwardastar
 import backwardastar
 import generalAStar
 
+LENGTH = 10
+
 if (os.path.isfile('grids')):
     grid_generator.load_grid_list()
 else:
@@ -15,30 +17,27 @@ else:
 
 grid = grid_generator.get_random_grid()
 
-i = random.randint(0, len(grid) - 1)# goal x
-j = random.randint(0, len(grid) - 1)# goal y
+#i = random.randint(0, len(grid) - 1)# goal x
+#j = random.randint(0, len(grid) - 1)# goal y
 
-grid[i][j].setGoal()
-grid[i][j].isBlock = False
+grid[LENGTH - 1][LENGTH - 1].setGoal()
+grid[LENGTH - 1][LENGTH - 1].isBlock = False
 
-x = random.randint(0, len(grid) - 1)# start x
-y = random.randint(0, len(grid) - 1)# start y
+#x = random.randint(0, len(grid) - 1)# start x
+#y = random.randint(0, len(grid) - 1)# start y
 
 # check start does not equal goal:
-while x == i:
-    x = random.randint(0, len(grid) - 1)
+#while x == i:
+#    x = random.randint(0, len(grid) - 1)
 
-grid[x][y].setStart()
-grid[x][y].isBlock = False
+grid[0][0].setStart()
+grid[0][0].isBlock = False
 
-grid = hValue_gen.generate_hValue(grid, i, j)
-
-print('goal is {} {}'.format(i, j))
-print('start is {} {}'.format(x, y))
+grid = hValue_gen.generate_hValue(grid, LENGTH - 1, LENGTH - 1)
 
 print('forward a star found: ')
 
-result = generalAStar.astar(state.State(y, x, 0), state.State(j, i, 0), grid)
+result = generalAStar.astar(state.State(0, 0, 0), state.State(LENGTH - 1, LENGTH - 1, 0), grid)
 
 if (result == 'failed'):
     print('no path to goal found')
