@@ -4,10 +4,8 @@ import grid_generator
 
 def make_path(current):
     path = []
-    while (current is not None):
+    while (current.parent is not None and current not in path):
         path.append(current)
-        if (current.isStart == True):
-            break
         current = current.parent
     path.reverse()
     return path
@@ -32,10 +30,12 @@ def traverse_grid(start_state, blockList, grid):
         if (n.isBlock):
             print('added to blocklist')
             n.set_gValue(9999)
+            n.set_fValue(n.get_hValue()+n.get_gValue())
             blockList.append(n)
         else:
             print('added to open list')
             n.set_gValue(1)
+            n.set_fValue(n.get_hValue() + n.get_gValue())
             open_list.addToOpenList(n)
             n.parent = start_state
 
@@ -60,8 +60,9 @@ def traverse_grid(start_state, blockList, grid):
             if (n in open_list.stateList):
                 if n.get_gValue() > new_gScore:
                     n.set_gValue(new_gScore)
+                    n.set_fValue(n.get_gValue()+n.get_hValue())
                     n.parent = current
-            elif new_gScore < n.get_gValue():
+            elif (new_gScore < n.get_gValue() or n not in open_list.stateList):
                 n.parent = current
                 n.set_gValue(new_gScore)
                 n.set_fValue(n.get_gValue() + n.get_hValue())
