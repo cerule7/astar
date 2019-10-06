@@ -11,6 +11,10 @@ def astar(start, goal, grid):
 
 	truePath = []
 	agentPosition = start
+	start.set_gValue(0)
+	start.set_fValue(start.get_hValue())
+	start.setStart()
+	start.isStart = True
 	blockedList = []
 	while (not agentPosition.isGoal):
 
@@ -35,4 +39,3 @@ def astar(start, goal, grid):
 		print(vars(agentPosition))
 
 	return truePath
-
