@@ -2,9 +2,6 @@ import state
 import os.path
 import grid_generator
 import hValue_gen
-import random
-import forwardastar
-import backwardastar
 import generalAStar
 
 LENGTH = 10

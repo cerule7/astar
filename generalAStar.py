@@ -6,8 +6,8 @@ import forwardastar
 import backwardastar
 
 def forwardAStar(start, goal, grid):
-	print('start is {} {}'.format(start.x, start.y))
-	print('goal is {} {}'.format(goal.x, goal.y))
+	#print('start is {} {}'.format(start.x, start.y))
+	#print('goal is {} {}'.format(goal.x, goal.y))
 
 	truePath = []
 	agentPosition = start
@@ -23,26 +23,26 @@ def forwardAStar(start, goal, grid):
 		if(result == "failed"):
 			return "failed"
 
-		print([(s.x, s.y) for s in blockedList])
-		print([(s.x, s.y) for s in result])
-		print([(s.x, s.y) for s in truePath])
+		#print([(s.x, s.y) for s in blockedList])
+		#print([(s.x, s.y) for s in result])
+		#print([(s.x, s.y) for s in truePath])
 
 		for position in result:
 			if(position.isBlock):
-				print('{} {} is blocked'.format(position.x, position.y))
+				#print('{} {} is blocked'.format(position.x, position.y))
 				blockedList.append(position)
 				#agentPosition = position.parent
-				print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
+				#print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
 				break
 			agentPosition = position
 			truePath.append(position)
-		print(vars(agentPosition))
+		#print(vars(agentPosition))
 
 	return truePath
 
 def backwardAStar(start, goal, grid):
-	print('start is {} {}'.format(start.x, start.y))
-	print('goal is {} {}'.format(goal.x, goal.y))
+	#print('start is {} {}'.format(start.x, start.y))
+	#print('goal is {} {}'.format(goal.x, goal.y))
 
 	truePath = []
 	agentPosition = goal
@@ -57,19 +57,19 @@ def backwardAStar(start, goal, grid):
 		if(result == "failed"):
 			return "failed"
 
-		print([(s.x, s.y) for s in blockedList])
-		print([(s.x, s.y) for s in result])
-		print([(s.x, s.y) for s in truePath])
+		#print([(s.x, s.y) for s in blockedList])
+		#print([(s.x, s.y) for s in result])
+		#print([(s.x, s.y) for s in truePath])
 
 		for position in result:
 			if(position.isBlock):
-				print('{} {} is blocked'.format(position.x, position.y))
+				#print('{} {} is blocked'.format(position.x, position.y))
 				blockedList.append(position)
 				#agentPosition = position.parent
-				print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
+				#print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
 				break
 			agentPosition = position
 			truePath.append(position)
-		print(vars(agentPosition))
+		#print(vars(agentPosition))
 
 	return truePath
