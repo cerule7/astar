@@ -45,8 +45,6 @@ else:
     for s in result:
         if (not grid[s.x][s.y].isGoal and not grid[s.x][s.y].isStart):
             grid[s.x][s.y].isPath = True
-        print('path is {} {}'.format(s.x, s.y))
-
 
 for g in grid:
     for k in g:

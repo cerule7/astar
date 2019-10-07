@@ -12,8 +12,6 @@ def make_path(current):
 def traverse_grid(goal_state, blockList, grid):
     open_list = openList(goal_state)
     closed_list = []
-    print('starting position is {} {}'.format(goal_state.x, goal_state.y))
-
 
     goal_state.set_fValue(goal_state.get_hValue())
 
@@ -21,17 +19,13 @@ def traverse_grid(goal_state, blockList, grid):
     neighbors = [grid[n[0]][n[1]] for n in neighbors]
 
     for n in neighbors:
-        print('n position is {} {}'.format(n.x, n.y))
         if n in blockList:
-            print('in blocklist')
             continue
         if (n.isBlock):
-            print('added to blocklist')
             n.set_gValue(9999)
             n.set_fValue(n.get_hValue()+n.get_gValue())
             blockList.append(n)
         else:
-            print('added to open list')
             n.set_gValue(1)
             n.set_fValue(n.get_hValue() + n.get_gValue())
             open_list.addToOpenList(n)
@@ -41,7 +35,6 @@ def traverse_grid(goal_state, blockList, grid):
         # get lowest f score node from open list
         current = open_list.pop()
         closed_list.append(current)
-        print('{} {} is current'.format(current.x, current.y))
         # if it's the goal, return path to goal
         if (current.isStart):
             return [blockList, make_path(current)]
