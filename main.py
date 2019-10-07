@@ -4,7 +4,7 @@ import grid_generator
 import hValue_gen
 import generalAStar
 
-LENGTH = 10
+LENGTH = 20
 
 def runAlgorithm(type, grid):
     print('{} a star found: '.format(type))
@@ -17,6 +17,7 @@ def runAlgorithm(type, grid):
     if (result == 'failed'):
         print('no path to goal found')
     else:
+        print('length of path is {} squares'.format(len(result)))
         for s in result:
             if (not grid[s.x][s.y].isGoal and not grid[s.x][s.y].isStart):
                 grid[s.x][s.y].isPath = True
@@ -43,4 +44,5 @@ grid[0][0].isBlock = False
 grid = hValue_gen.generate_hValue(grid, LENGTH - 1, LENGTH - 1)
 
 runAlgorithm('forward', grid)
+grid = grid_generator.reset(grid)
 runAlgorithm('backward', grid)

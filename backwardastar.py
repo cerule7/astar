@@ -23,7 +23,7 @@ def traverse_grid(goal_state, blockList, grid):
             continue
         if (n.isBlock):
             n.set_gValue(9999)
-            n.set_fValue(n.get_hValue()+n.get_gValue())
+            n.set_fValue(n.get_hValue() + n.get_gValue())
             blockList.append(n)
         else:
             n.set_gValue(1)
