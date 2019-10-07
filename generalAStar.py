@@ -5,7 +5,7 @@ import state
 import forwardastar
 import backwardastar
 
-def astar(start, goal, grid):
+def forwardAStar(start, goal, grid):
 	print('start is {} {}'.format(start.x, start.y))
 	print('goal is {} {}'.format(goal.x, goal.y))
 
@@ -40,3 +40,36 @@ def astar(start, goal, grid):
 
 	return truePath
 
+def backwardAStar(start, goal, grid):
+	print('start is {} {}'.format(start.x, start.y))
+	print('goal is {} {}'.format(goal.x, goal.y))
+
+	truePath = []
+	agentPosition = goal
+	goal.set_gValue(0)
+	goal.set_fValue(goal.get_hValue())
+	start.isStart = True
+	blockedList = []
+	while (not agentPosition.isStart):
+
+		blockedList, result = backwardastar.traverse_grid(agentPosition, blockedList, grid)
+
+		if(result == "failed"):
+			return "failed"
+
+		print([(s.x, s.y) for s in blockedList])
+		print([(s.x, s.y) for s in result])
+		print([(s.x, s.y) for s in truePath])
+
+		for position in result:
+			if(position.isBlock):
+				print('{} {} is blocked'.format(position.x, position.y))
+				blockedList.append(position)
+				#agentPosition = position.parent
+				print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
+				break
+			agentPosition = position
+			truePath.append(position)
+		print(vars(agentPosition))
+
+	return truePath

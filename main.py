@@ -7,7 +7,7 @@ import forwardastar
 import backwardastar
 import generalAStar
 
-LENGTH = 10
+LENGTH = 50
 
 if (os.path.isfile('grids')):
     grid_generator.load_grid_list()
@@ -35,9 +35,9 @@ grid[0][0].isBlock = False
 
 grid = hValue_gen.generate_hValue(grid, LENGTH - 1, LENGTH - 1)
 
-print('forward a star found: ')
+print('backwardastar a star found: ')
 
-result = generalAStar.astar(state.State(0, 0, 0), state.State(LENGTH - 1, LENGTH - 1, 0), grid)
+result = generalAStar.backwardAStar(state.State(0, 0, 0), state.State(LENGTH - 1, LENGTH - 1, 0), grid)
 
 if (result == 'failed'):
     print('no path to goal found')
