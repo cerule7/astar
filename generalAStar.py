@@ -71,6 +71,6 @@ def backwardAStar(start, goal, grid):
 				break
 			agentPosition = position
 			truePath.append(position)
-		print(vars(agentPosition))
+		#print(vars(agentPosition))
 
 	return truePath
