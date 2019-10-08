@@ -16,7 +16,6 @@ def traverse_grid(start_state, blockList, grid):
     closed_list = []
     #print('starting position is {} {}'.format(start_state.x, start_state.y))
 
-
     start_state.set_fValue(start_state.get_hValue())
 
     neighbors = grid_generator.generate_neighbors([start_state.x, start_state.y])
@@ -30,7 +29,7 @@ def traverse_grid(start_state, blockList, grid):
         if (n.isBlock):
             #print('added to blocklist')
             n.set_gValue(9999)
-            n.set_fValue(n.get_hValue()+n.get_gValue())
+            n.set_fValue(n.get_hValue() + n.get_gValue())
             blockList.append(n)
         else:
             #print('added to open list')

@@ -6,8 +6,8 @@ import forwardastar
 import backwardastar
 
 def forwardAStar(start, goal, grid):
-	#print('start is {} {}'.format(start.x, start.y))
-	#print('goal is {} {}'.format(goal.x, goal.y))
+	# print('start is {} {}'.format(start.x, start.y))
+	# print('goal is {} {}'.format(goal.x, goal.y))
 
 	truePath = []
 	agentPosition = start
@@ -52,25 +52,25 @@ def backwardAStar(start, goal, grid):
 	start.isStart = True
 	blockedList = []
 	while (not agentPosition.isGoal):
-
+		grid = hValue_gen.generate_hValue(grid, agentPosition.x, agentPosition.y)
 		blockedList, result = backwardastar.traverse_grid(agentPosition, blockedList, grid)
 
 		if(result == "failed"):
 			return "failed"
 
-		#print([(s.x, s.y) for s in blockedList])
-		#print([(s.x, s.y) for s in result])
-		#print([(s.x, s.y) for s in truePath])
+		# print([(s.x, s.y) for s in blockedList])
+		# print([(s.x, s.y) for s in result])
+		# print([(s.x, s.y) for s in truePath])
 
 		for position in result:
 			if(position.isBlock):
-				#print('{} {} is blocked'.format(position.x, position.y))
+				# print('{} {} is blocked'.format(position.x, position.y))
 				blockedList.append(position)
-				#agentPosition = position.parent
-				#print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
+				# agentPosition = position.parent
+				# print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
 				break
 			agentPosition = position
 			truePath.append(position)
-		#print(vars(agentPosition))
+		# print(vars(agentPosition))
 
 	return truePath

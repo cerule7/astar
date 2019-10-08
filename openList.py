@@ -40,7 +40,7 @@ class openList:
             if self.stateList[parent].fValue > self.stateList[i].fValue:
                 self.swap(parent,i)
                 self.bubbleUp(parent)
-                
+ 
     def bubbleDown(self, i):
         leftChild = i*2
         rightChild = (i*2)+1
@@ -54,11 +54,3 @@ class openList:
         else:
             self.swap(i, small)
             self.bubbleDown(small)
-
-
-
-
-
-
-
-
