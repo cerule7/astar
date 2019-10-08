@@ -36,7 +36,7 @@ def traverse_grid(goal_state, blockList, grid):
         current = open_list.pop()
         closed_list.append(current)
         # if it's the goal, return path to goal
-        if (current.isStart):
+        if (current.isGoal):
             return [blockList, make_path(current)]
 
         neighbors = grid_generator.generate_neighbors([current.x, current.y])
