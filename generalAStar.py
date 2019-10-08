@@ -45,12 +45,13 @@ def backwardAStar(start, goal, grid):
 	#print('goal is {} {}'.format(goal.x, goal.y))
 
 	truePath = []
-	agentPosition = goal
+	agentPosition = start
 	goal.set_gValue(0)
 	goal.set_fValue(goal.get_hValue())
+	goal.isGoal = True
 	start.isStart = True
 	blockedList = []
-	while (not agentPosition.isStart):
+	while (not agentPosition.isGoal):
 
 		blockedList, result = backwardastar.traverse_grid(agentPosition, blockedList, grid)
 
@@ -70,6 +71,6 @@ def backwardAStar(start, goal, grid):
 				break
 			agentPosition = position
 			truePath.append(position)
-		#print(vars(agentPosition))
+		print(vars(agentPosition))
 
 	return truePath
