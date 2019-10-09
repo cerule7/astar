@@ -1,5 +1,5 @@
 class State:
-    def __init__(self, a, b, counter):
+    def __init__(self, a, b):
         self.x = b
         self.y = a
         self.parent = None
@@ -11,7 +11,7 @@ class State:
         self.isPath = False
         self.isStart = False
         self.isOccupied = False
-        self.search = counter
+        self.search = 0
 
     def getParent(self):
         return self.parent

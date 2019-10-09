@@ -30,7 +30,7 @@ def generate_neighbors(cell):
 
 def generate_grid():
   global grid_list
-  grid = [[state.State(i, j, 0) for i in range(LENGTH)] for j in range(LENGTH)]
+  grid = [[state.State(i, j) for i in range(LENGTH)] for j in range(LENGTH)]
   visited = []
   stack = []
   current_cell = [random.randint(0, LENGTH - 1), random.randint(0, LENGTH - 1)]

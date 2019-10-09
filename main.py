@@ -3,6 +3,7 @@ import os.path
 import grid_generator
 import hValue_gen
 import generalAStar
+import adaptiveastar
 
 LENGTH = 20
 
@@ -10,9 +11,11 @@ def runAlgorithm(type, grid):
     print('{} a star found: '.format(type))
 
     if(type == 'backward'):
-        result = generalAStar.backwardAStar(state.State(0, 0, 0), state.State(LENGTH - 1, LENGTH - 1, 0), grid)
+        result = generalAStar.backwardAStar(state.State(0, 0), state.State(LENGTH - 1, LENGTH - 1), grid)
     elif(type == 'forward'):
-        result = generalAStar.forwardAStar(state.State(0, 0, 0), state.State(LENGTH - 1, LENGTH - 1, 0), grid)
+        result = generalAStar.forwardAStar(state.State(0, 0), state.State(LENGTH - 1, LENGTH - 1), grid)
+    else:
+        result = adaptiveastar.main(state.State(0, 0), state.State(LENGTH - 1, LENGTH - 1), grid)
 
     if (result == 'failed'):
         print('no path to goal found')
@@ -43,6 +46,8 @@ grid[0][0].isBlock = False
 
 grid = hValue_gen.generate_hValue(grid, LENGTH - 1, LENGTH - 1)
 
-runAlgorithm('forward', grid)
-grid = grid_generator.reset(grid)
-runAlgorithm('backward', grid)
+# runAlgorithm('forward', grid)
+# grid = grid_generator.reset(grid)
+# runAlgorithm('backward', grid)
+# grid = grid_generator.reset(grid)
+runAlgorithm('adaptive', grid)
