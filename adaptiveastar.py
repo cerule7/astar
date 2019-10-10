@@ -1,11 +1,6 @@
 from openList import openList
 import grid_generator
-import hValue_gen
 
-counter = 1
-deltah = {} #the running sum of all corrections up to the beginning of the xth A* search
-pathcost = {}
-grid = None
 
 def make_path(current):
     path = []
@@ -15,76 +10,62 @@ def make_path(current):
     path.reverse()
     return path
 
-def initializeState(s, sgoal):
-	global deltah
-	global pathcost
-	global grid
-	if (s.search != counter and s.search != 0):
-		if (s.gValue + s.hValue < pathcost[str(s.search)]):
-			s.hValue = pathcost[str(s.search)] - s.gValue
-		s.hValue = s.hValue - (deltah[str(s.counter)] - deltah[str(s.search)])
-		s.hValue = max(s.hValue, hValue_gen.hValue(grid, s, sgoal))
-		s.gValue = 9999
-	elif (s.search == 0):
-		s.gValue = 9999
-		s.hValue = hValue_gen.hValue(grid, s, sgoal)
-	s.search = counter
-	grid[s.x][s.y] = s
 
-def computePath(open_list, sgoal):
-	global deltah
-	global pathcost
-	global grid
-	while not open_list.isEmpty() and sgoal.gValue > open_list.stateList[1].gValue + open_list.stateList[1].hValue:
-		s = open_list.pop()
-		neighbors = grid_generator.generate_neighbors([s.x, s.y])
-		neighbors = [grid[n[0]][n[1]] for n in neighbors]
-		for n in neighbors:
-			if (n.gValue > s.gValue + 1):
-				n.gValue = s.gValue + 1
-				n.parent = s
-				if n in open_list.stateList:
-					open_list.stateList.remove(n)
-				n.fValue = n.hValue + n.gValue
-				open_list.addToOpenList(n)
-	return open_list
+def traverse_grid(start_state, blockList, grid):
+    open_list = openList(start_state)
+    closed_list = []
+    #print('starting position is {} {}'.format(start_state.x, start_state.y))
 
-def main(start, goal, the_grid):
-	global grid
-	global deltah
-	global pathcost
-	grid = the_grid
-	paths = {}
-	counter = 1
-	deltah[str(counter)] = 0
-	sstart = start
-	sgoal = goal
-	while (sstart != sgoal):
-		initializeState(sstart, goal)
-		initializeState(sgoal, goal)
-		sstart.gValue = 0
-		sstart.fValue = sstart.hValue
-		open_list = openList(sstart)
+    start_state.set_fValue(start_state.get_hValue())
 
-		open_list = computePath(open_list, sgoal)
+    neighbors = grid_generator.generate_neighbors([start_state.x, start_state.y])
+    neighbors = [grid[n[0]][n[1]] for n in neighbors]
 
-		if open_list.isEmpty():
-			pathcost[str(counter)] = 9999
-		else:
-			pathcost[str(counter)] = sgoal.gValue
-			paths[str(counter)] = make_path(sstart)
+    for n in neighbors:
+        #print('n position is {} {}'.format(n.x, n.y))
+        if n in blockList:
+            #print('in blocklist')
+            continue
+        if (n.isBlock):
+            #print('added to blocklist')
+            n.set_gValue(9999)
+            n.set_fValue(n.get_hValue() + n.get_gValue())
+            blockList.append(n)
+        else:
+            #print('added to open list')
+            n.set_gValue(1)
+            n.set_fValue(n.get_hValue() + n.get_gValue())
+            open_list.addToOpenList(n)
+            n.parent = start_state
 
-		sstart = start
-		snewgoal = goal
+    while (not open_list.isEmpty()):
+        # get lowest f score node from open list
+        current = open_list.pop()
+        closed_list.append(current)
+        #print('{} {} is current'.format(current.x, current.y))
+        # if it's the goal, return path to goal
+        if (current.isGoal):
+            return [blockList, make_path(current), closed_list]
 
-		if sgoal != snewgoal:
-			initializeState(snewgoal, goal)
-			if snewgoal.gValue + snewgoal.hValue < pathcost[str(counter)]:
-				snewgoal.hValue = pathcost[str(counter)] - snewgoal.gValue
-				deltah[str(counter + 1)] = deltah[str(counter)] + snewgoal.hValue
-				sgoal = snewgoal
-		else:
-			deltah[str(counter + 1)] = deltah[str(counter)]
+        neighbors = grid_generator.generate_neighbors([current.x, current.y])
+        neighbors = [grid[n[0]][n[1]] for n in neighbors]
+        for n in neighbors:
+            if (n in closed_list or n in blockList):
+                continue
 
-		counter += 1
-	return min(paths)
+            # distance from one node to another is 1
+            new_gScore = current.get_gValue() + 1
+
+            if (n in open_list.stateList):
+                if n.get_gValue() > new_gScore:
+                    n.set_gValue(new_gScore)
+                    n.set_fValue(n.get_gValue()+n.get_hValue())
+                    n.parent = current
+            elif (new_gScore < n.get_gValue() or n not in open_list.stateList):
+                n.parent = current
+                n.set_gValue(new_gScore)
+                n.set_fValue(n.get_gValue() + n.get_hValue())
+                open_list.addToOpenList(n)
+
+    return [blockList, "failed", closed_list]
+

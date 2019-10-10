@@ -4,6 +4,7 @@ import grid_generator
 import state
 import forwardastar
 import backwardastar
+import adaptiveastar
 
 def forwardAStar(start, goal, grid):
 	# print('start is {} {}'.format(start.x, start.y))
@@ -72,5 +73,36 @@ def backwardAStar(start, goal, grid):
 			agentPosition = position
 			truePath.append(position)
 		# print(vars(agentPosition))
+
+	return truePath
+
+def adaptiveAStar(start, goal, grid):
+	truePath = []
+	agentPosition = start
+	start.set_gValue(0)
+	start.set_fValue(start.get_hValue())
+	start.setStart()
+	start.isStart = True
+	blockedList = []
+	while (not agentPosition.isGoal):
+
+		blockedList, result, closedList = adaptiveastar.traverse_grid(agentPosition, blockedList, grid)
+
+		if(result == "failed"):
+			return "failed"
+
+		for s in closedList:
+			grid[s.x][s.y].hValue = len(result) - s.gValue
+
+		for position in result:
+			if(position.isBlock):
+				#print('{} {} is blocked'.format(position.x, position.y))
+				blockedList.append(position)
+				#agentPosition = position.parent
+				#print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
+				break
+			agentPosition = position
+			truePath.append(position)
+		#print(vars(agentPosition))
 
 	return truePath
