@@ -1,6 +1,6 @@
 import state
 import math
-
+import random
 
 class openList:
     def __init__(self, states):  # states will be initial starting state.
@@ -74,6 +74,11 @@ class openList:
                 if self.stateList[parent].gValue < self.stateList[i].gValue: #if the parent has a smaller g value, then prioritize child and swap
                     self.swap(parent, i)
                     self.bubbleUp(parent)
+                else:
+                    randomTieBreak = random.randint(0, 1)
+                    if(randomTieBreak == 1):
+                        self.swap(parent, i)
+                        self.bubbleUp(parent)
 
     def bubbleUpSmallG(self, i):  # tie break that prioritizes values with larger g values
         if i <= 1:
@@ -87,3 +92,8 @@ class openList:
                 if self.stateList[parent].gValue > self.stateList[i].gValue: #if the parent has a bigger g value, then prioritize child and swap
                     self.swap(parent, i)
                     self.bubbleUp(parent)
+                else:
+                    randomTieBreak = random.randint(0, 1)
+                    if (randomTieBreak == 1):
+                        self.swap(parent, i)
+                        self.bubbleUp(parent)
