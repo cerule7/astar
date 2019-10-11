@@ -3,9 +3,8 @@ import os.path
 import grid_generator
 import hValue_gen
 import generalAStar
-import adaptiveastar
 
-LENGTH = 20
+LENGTH = 101
 
 def runAlgorithm(type, grid):
     print('{} a star found: '.format(type))

@@ -4,7 +4,7 @@ import pickle
 import os.path
 import state
 
-LENGTH = 20
+LENGTH = 101
 num_grids = 50
 grid_list = []
 

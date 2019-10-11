@@ -73,4 +73,4 @@ class State:
         elif(self.isPath):
             return '*'
         else:
-            return '_'
+            return ' '
