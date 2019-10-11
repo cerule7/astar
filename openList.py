@@ -1,16 +1,23 @@
 import state
 import math
+
+
 class openList:
-    def __init__(self, states): #states will be initial starting state
-        s = state.State #s is a dummy value in first position of list so that open list index may start at 1
+    def __init__(self, states):  # states will be initial starting state.
+        s = state.State  # s is a dummy value in first position of list so that open list index may start at 1
         s.fValue = -1
         self.stateList = [s]
         self.stateList.append(states)
-        self.bubbleUp(len(self.stateList)-1)
+        self.bubbleUp(len(self.stateList) - 1)
 
-    def addToOpenList(self, state):
+    def addToOpenList(self, state, tieBreak = None): #tiebreak determines how to break ties, bigG -> prioritize bigger gValues, smallG -> prioritizes small gValues
         self.stateList.append(state)
-        self.bubbleUp(len(self.stateList)-1)
+        if(tieBreak == 'bigG'):
+            self.bubbleUpBigG(len(self.stateList) - 1)
+        elif(tieBreak == 'smallG'):
+            self.bubbleUpSmallG(len(self.stateList) - 1)
+        else:
+            self.bubbleUp(len(self.stateList) - 1)
 
     def isEmpty(self):
         if len(self.stateList) <= 1:
@@ -36,15 +43,15 @@ class openList:
         if i <= 1:
             return
         else:
-            parent = math.trunc(i/2)
+            parent = math.trunc(i / 2)
             if self.stateList[parent].fValue > self.stateList[i].fValue:
-                self.swap(parent,i)
+                self.swap(parent, i)
                 self.bubbleUp(parent)
- 
+
     def bubbleDown(self, i):
-        leftChild = i*2
-        rightChild = (i*2)+1
-        small = i #assumed smallest fValue
+        leftChild = i * 2
+        rightChild = (i * 2) + 1
+        small = i  # assumed smallest fValue
         if len(self.stateList) > leftChild and self.stateList[leftChild].fValue < self.stateList[small].fValue:
             small = leftChild
         if len(self.stateList) > rightChild and self.stateList[rightChild].fValue < self.stateList[small].fValue:
@@ -54,3 +61,29 @@ class openList:
         else:
             self.swap(i, small)
             self.bubbleDown(small)
+
+    def bubbleUpBigG(self, i): #tie break that prioritizes values with larger g values
+        if i <= 1:
+            return
+        else:
+            parent = math.trunc(i / 2)
+            if self.stateList[parent].fValue > self.stateList[i].fValue:
+                self.swap(parent, i)
+                self.bubbleUp(parent)
+            elif self.stateList[parent].fValue == self.stateList[i].fValue: #if fValues are equal, must tie break
+                if self.stateList[parent].gValue < self.stateList[i].gValue: #if the parent has a smaller g value, then prioritize child and swap
+                    self.swap(parent, i)
+                    self.bubbleUp(parent)
+
+    def bubbleUpSmallG(self, i):  # tie break that prioritizes values with larger g values
+        if i <= 1:
+            return
+        else:
+            parent = math.trunc(i / 2)
+            if self.stateList[parent].fValue > self.stateList[i].fValue:
+                self.swap(parent, i)
+                self.bubbleUp(parent)
+            elif self.stateList[parent].fValue == self.stateList[i].fValue: #if fValues are equal, must tie break
+                if self.stateList[parent].gValue > self.stateList[i].gValue: #if the parent has a bigger g value, then prioritize child and swap
+                    self.swap(parent, i)
+                    self.bubbleUp(parent)
