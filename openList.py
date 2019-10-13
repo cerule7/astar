@@ -80,7 +80,7 @@ class openList:
                         self.swap(parent, i)
                         self.bubbleUp(parent)
 
-    def bubbleUpSmallG(self, i):  # tie break that prioritizes values with larger g values
+    def bubbleUpSmallG(self, i):  # tie break that prioritizes values with smaller g values
         if i <= 1:
             return
         else:
@@ -91,7 +91,7 @@ class openList:
             elif self.stateList[parent].fValue == self.stateList[i].fValue: #if fValues are equal, must tie break
                 if self.stateList[parent].gValue > self.stateList[i].gValue: #if the parent has a bigger g value, then prioritize child and swap
                     self.swap(parent, i)
-                    self.bubbleUp(parent)
+                    self.bubbleUp(i)
                 else:
                     randomTieBreak = random.randint(0, 1)
                     if (randomTieBreak == 1):

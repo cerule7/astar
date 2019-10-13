@@ -17,12 +17,13 @@ def forwardAStar(start, goal, grid):
 	start.setStart()
 	start.isStart = True
 	blockedList = []
+	expanded = 1
 	while (not agentPosition.isGoal):
 
-		blockedList, result = forwardastar.traverse_grid(agentPosition, blockedList, grid)
+		blockedList, result, expanded = forwardastar.traverse_grid(agentPosition, blockedList, grid, expanded)
 
 		if(result == "failed"):
-			return "failed"
+			return ["failed", expanded] 
 
 		#print([(s.x, s.y) for s in blockedList])
 		#print([(s.x, s.y) for s in result])
@@ -39,7 +40,7 @@ def forwardAStar(start, goal, grid):
 			truePath.append(position)
 		#print(vars(agentPosition))
 
-	return truePath
+	return [truePath, expanded]
 
 def backwardAStar(start, goal, grid):
 	#print('start is {} {}'.format(start.x, start.y))
@@ -52,12 +53,13 @@ def backwardAStar(start, goal, grid):
 	goal.isGoal = True
 	start.isStart = True
 	blockedList = []
+	expanded = 1
 	while (not agentPosition.isGoal):
 		grid = hValue_gen.generate_hValue(grid, agentPosition.x, agentPosition.y)
-		blockedList, result = backwardastar.traverse_grid(agentPosition, blockedList, grid)
+		blockedList, result, expanded = backwardastar.traverse_grid(agentPosition, blockedList, grid, expanded)
 
 		if(result == "failed"):
-			return "failed"
+			return ["failed", expanded]
 
 		# print([(s.x, s.y) for s in blockedList])
 		# print([(s.x, s.y) for s in result])
@@ -74,7 +76,7 @@ def backwardAStar(start, goal, grid):
 			truePath.append(position)
 		# print(vars(agentPosition))
 
-	return truePath
+	return [truePath, expanded]
 
 def adaptiveAStar(start, goal, grid):
 	truePath = []

@@ -3,31 +3,20 @@ import os.path
 import grid_generator
 import hValue_gen
 import generalAStar
+import statistics 
 
 LENGTH = 101
 
 def runAlgorithm(type, grid):
-    print('{} a star found: '.format(type))
 
     if(type == 'backward'):
-        result = generalAStar.backwardAStar(state.State(0, 0), state.State(LENGTH - 1, LENGTH - 1), grid)
+        [result, expanded] = generalAStar.backwardAStar(state.State(0, 0), state.State(LENGTH - 1, LENGTH - 1), grid)
     elif(type == 'forward'):
-        result = generalAStar.forwardAStar(state.State(0, 0), state.State(LENGTH - 1, LENGTH - 1), grid)
+        [result, expanded] = generalAStar.forwardAStar(state.State(0, 0), state.State(LENGTH - 1, LENGTH - 1), grid)
     else:
-        result = generalAStar.adaptiveAStar(state.State(0, 0), state.State(LENGTH - 1, LENGTH - 1), grid)
+        [result, expanded] = generalAStar.adaptiveAStar(state.State(0, 0), state.State(LENGTH - 1, LENGTH - 1), grid)
 
-    if (result == 'failed'):
-        print('no path to goal found')
-    else:
-        print('length of path is {} squares'.format(len(result)))
-        for s in result:
-            if (not grid[s.x][s.y].isGoal and not grid[s.x][s.y].isStart):
-                grid[s.x][s.y].isPath = True
-
-    for g in grid:
-        for k in g:
-            print(k.toString(), end = " ")
-        print("")
+    return [result, expanded]
 
 if (os.path.isfile('grids')):
     grid_generator.load_grid_list()
@@ -35,18 +24,29 @@ else:
     grid_generator.generate_grid_list()
     grid_generator.save_grid_list()
 
-grid = grid_generator.get_random_grid()
+#statistic section
+gridlist = grid_generator.get_grid_list()
+expansions = list()
 
-grid[LENGTH - 1][LENGTH - 1].setGoal()
-grid[LENGTH - 1][LENGTH - 1].isBlock = False
+i = 1
+for grid in gridlist:
+    grid[LENGTH - 1][LENGTH - 1].setGoal()
+    grid[LENGTH - 1][LENGTH - 1].isBlock = False
 
-grid[0][0].setStart()
-grid[0][0].isBlock = False
+    grid[0][0].setStart()
+    grid[0][0].isBlock = False
 
-grid = hValue_gen.generate_hValue(grid, LENGTH - 1, LENGTH - 1)
+    grid = hValue_gen.generate_hValue(grid, LENGTH - 1, LENGTH - 1)
 
-runAlgorithm('forward', grid)
-grid = grid_generator.reset(grid)
-runAlgorithm('backward', grid)
-grid = grid_generator.reset(grid)
-runAlgorithm('adaptive', grid)
+    [result, expanded] = runAlgorithm('forward', grid)
+    print('grid #{} expanded {}'.format(i, expanded))
+    expansions.append(expanded)
+    i += 1
+
+print('statistics on forward expansions for 50 grids: ')
+
+print('mean: {}'.format(statistics.mean(expansions)))
+print('median: {}'.format(statistics.median(expansions)))
+print('standard dev: {}'.format(statistics.stdev(expansions)))
+print('maximum: {}'.format(max(expansions)))
+print('minimum: {}'.format(min(expansions)))

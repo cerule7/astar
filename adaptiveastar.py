@@ -35,7 +35,7 @@ def traverse_grid(start_state, blockList, grid):
             #print('added to open list')
             n.set_gValue(1)
             n.set_fValue(n.get_hValue() + n.get_gValue())
-            open_list.addToOpenList(n)
+            open_list.addToOpenList(n, 'bigG')
             n.parent = start_state
 
     while (not open_list.isEmpty()):
@@ -65,7 +65,7 @@ def traverse_grid(start_state, blockList, grid):
                 n.parent = current
                 n.set_gValue(new_gScore)
                 n.set_fValue(n.get_gValue() + n.get_hValue())
-                open_list.addToOpenList(n)
+                open_list.addToOpenList(n, 'bigG')
 
     return [blockList, "failed", closed_list]
 
