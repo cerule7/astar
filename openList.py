@@ -91,7 +91,7 @@ class openList:
             elif self.stateList[parent].fValue == self.stateList[i].fValue: #if fValues are equal, must tie break
                 if self.stateList[parent].gValue > self.stateList[i].gValue: #if the parent has a bigger g value, then prioritize child and swap
                     self.swap(parent, i)
-                    self.bubbleUp(i)
+                    self.bubbleUp(parent)
                 else:
                     randomTieBreak = random.randint(0, 1)
                     if (randomTieBreak == 1):
