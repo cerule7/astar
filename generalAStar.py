@@ -86,12 +86,13 @@ def adaptiveAStar(start, goal, grid):
 	start.setStart()
 	start.isStart = True
 	blockedList = []
+	expanded = 1
 	while (not agentPosition.isGoal):
 
-		blockedList, result, closedList = adaptiveastar.traverse_grid(agentPosition, blockedList, grid)
+		blockedList, result, closedList, expanded = adaptiveastar.traverse_grid(agentPosition, blockedList, grid, expanded)
 
 		if(result == "failed"):
-			return "failed"
+			return ["failed", expanded]
 
 		for s in closedList:
 			grid[s.x][s.y].hValue = len(result) - s.gValue
@@ -107,4 +108,4 @@ def adaptiveAStar(start, goal, grid):
 			truePath.append(position)
 		#print(vars(agentPosition))
 
-	return truePath
+	return [truePath, expanded]

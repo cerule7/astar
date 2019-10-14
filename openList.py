@@ -10,7 +10,7 @@ class openList:
         self.stateList.append(states)
         self.bubbleUp(len(self.stateList) - 1)
 
-    def addToOpenList(self, state, tieBreak = None): #tiebreak determines how to break ties, bigG -> prioritize bigger gValues, smallG -> prioritizes small gValues
+    def addToOpenList(self, state, tieBreak): #tiebreak determines how to break ties, bigG -> prioritize bigger gValues, smallG -> prioritizes small gValues
         self.stateList.append(state)
         if(tieBreak == 'bigG'):
             self.bubbleUpBigG(len(self.stateList) - 1)
