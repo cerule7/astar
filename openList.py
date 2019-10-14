@@ -28,7 +28,7 @@ class openList:
     def swap(self, i, j):
         self.stateList[i], self.stateList[j] = self.stateList[j], self.stateList[i]
 
-    def pop(self):
+    def pop(self, tieBreak = None):
         if len(self.stateList) == 1:
             top = False
         elif len(self.stateList) == 2:
@@ -36,7 +36,12 @@ class openList:
         else:
             self.swap(1, (len(self.stateList) - 1))
             top = self.stateList.pop()
-            self.bubbleDown(1)
+            if(tieBreak == 'bigG'):
+                self.bubbleDownBigG(1)
+            elif(tieBreak == 'smallG'):
+                self.bubbleDownSmallG(1)
+            else:
+                self.bubbleDown(1)
         return top
 
     def bubbleUp(self, i):
@@ -116,4 +121,24 @@ class openList:
             return
         else:
             self.swap(i, small)
-            self.bubbleDown(small)
+            self.bubbleDownBigG(small)
+
+    def bubbleDownSmallG(self, i):
+        leftChild = i * 2
+        rightChild = (i * 2) + 1
+        small = i  # assumed smallest fValue
+        if len(self.stateList) > leftChild and self.stateList[leftChild].fValue < self.stateList[small].fValue:
+            small = leftChild
+        if len(self.stateList) > rightChild and self.stateList[rightChild].fValue < self.stateList[small].fValue:
+            small = rightChild
+        if len(self.stateList) > rightChild and self.stateList[rightChild].fValue == self.stateList[small].fValue:
+            if(self.stateList[rightChild].gValue < self.stateList[small].fValue):
+                small = rightChild
+        if len(self.stateList) > leftChild and self.stateList[leftChild].fValue == self.stateList[small].fValue:
+            if(self.stateList[leftChild].gValue < self.stateList[small].fValue):
+                small = leftChild
+        if small == i:
+            return
+        else:
+            self.swap(i, small)
+            self.bubbleDownSmallG(small)
