@@ -23,7 +23,7 @@ def forwardAStar(start, goal, grid):
 		blockedList, result, expanded = forwardastar.traverse_grid(agentPosition, blockedList, grid, expanded)
 
 		if(result == "failed"):
-			return ["failed", expanded] 
+			return ["failed", expanded]
 
 		#print([(s.x, s.y) for s in blockedList])
 		#print([(s.x, s.y) for s in result])
@@ -48,29 +48,23 @@ def backwardAStar(start, goal, grid):
 
 	truePath = []
 	agentPosition = start
-	grid = hValue_gen.generate_hValue(grid, agentPosition.x, agentPosition.y)
 	goal.set_gValue(0)
 	goal.set_fValue(goal.get_hValue())
 	goal.isGoal = True
 	start.isStart = True
 	blockedList = []
 	expanded = 1
+	grid = hValue_gen.generate_hValue(grid, start.x, start.y)
 	while (not agentPosition.isGoal):
-
-		if(agentPosition.x == goal.x and agentPosition.y + 1 == goal.y):
-			truePath.append(grid[agentPosition.x][agentPosition.y + 1])
+		if(agentPosition.x == goal.x and agentPosition.y+1 == goal.y):
+			truePath.append(grid[agentPosition.x] [agentPosition.y+1])
 			break
-		if(agentPosition.x + 1 == goal.x and agentPosition.y == goal.y):
-			truePath.append(grid[agentPosition.x + 1][agentPosition.y])
+		if (agentPosition.x+1 == goal.x and agentPosition.y == goal.y):
+			truePath.append(grid[agentPosition.x+1][agentPosition.y])
 			break
-		if(agentPosition.x - 1 == goal.x and agentPosition.y == goal.y):
-			truePath.append(grid[agentPosition.x - 1][agentPosition.y])
-			break
-		if(agentPosition.x == goal.x and agentPosition.y == goal.y):
-			break
-
+		if(agentPosition.x == goal.x and agentPosition.y == goal.y): break
 		grid = hValue_gen.generate_hValue(grid, agentPosition.x, agentPosition.y)
-		blockedList, result, expanded = backwardastar.traverse_grid(goal, agentPosition, blockedList, grid, expanded)
+		blockedList, result, expanded = backwardastar.traverse_grid(goal, blockedList, grid, expanded, agentPosition.x, agentPosition.y)
 
 		if(result == "failed"):
 			return ["failed", expanded]
@@ -84,9 +78,10 @@ def backwardAStar(start, goal, grid):
 				# print('{} {} is blocked'.format(position.x, position.y))
 				blockedList.append(position)
 				# agentPosition = position.parent
+				# print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
 				break
 			agentPosition = position
-			#print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
+
 			truePath.append(position)
 		# print(vars(agentPosition))
 
@@ -109,8 +104,7 @@ def adaptiveAStar(start, goal, grid):
 			return ["failed", expanded]
 
 		for s in closedList:
-			if(s not in blockedList):
-				grid[s.x][s.y].hValue = len(result) - s.gValue
+			grid[s.x][s.y].hValue = len(result) - s.gValue
 
 		for position in result:
 			if(position.isBlock):
