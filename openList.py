@@ -10,7 +10,7 @@ class openList:
         self.stateList.append(states)
         self.bubbleUp(len(self.stateList) - 1)
 
-    def addToOpenList(self, state, tieBreak): #tiebreak determines how to break ties, bigG -> prioritize bigger gValues, smallG -> prioritizes small gValues
+    def addToOpenList(self, state, tieBreak = None): #tiebreak determines how to break ties, bigG -> prioritize bigger gValues, smallG -> prioritizes small gValues
         self.stateList.append(state)
         if(tieBreak == 'bigG'):
             self.bubbleUpBigG(len(self.stateList) - 1)
@@ -62,38 +62,58 @@ class openList:
             self.swap(i, small)
             self.bubbleDown(small)
 
-    def bubbleUpBigG(self, i): #tie break that prioritizes values with larger g values
+    def bubbleUpBigG(self, i):  # tie break that prioritizes values with larger g values
         if i <= 1:
             return
         else:
             parent = math.trunc(i / 2)
             if self.stateList[parent].fValue > self.stateList[i].fValue:
                 self.swap(parent, i)
-                self.bubbleUp(parent)
-            elif self.stateList[parent].fValue == self.stateList[i].fValue: #if fValues are equal, must tie break
-                if self.stateList[parent].gValue < self.stateList[i].gValue: #if the parent has a smaller g value, then prioritize child and swap
+                self.bubbleUpBigG(parent)
+            elif self.stateList[parent].fValue == self.stateList[i].fValue:  # if fValues are equal, must tie break
+                if self.stateList[parent].gValue < self.stateList[i].gValue:  # if the parent has a bigger g value, then prioritize child and swap
                     self.swap(parent, i)
-                    self.bubbleUp(parent)
-                else:
-                    randomTieBreak = random.randint(0, 1)
-                    if(randomTieBreak == 1):
-                        self.swap(parent, i)
-                        self.bubbleUp(parent)
-
-    def bubbleUpSmallG(self, i):  # tie break that prioritizes values with smaller g values
-        if i <= 1:
-            return
-        else:
-            parent = math.trunc(i / 2)
-            if self.stateList[parent].fValue > self.stateList[i].fValue:
-                self.swap(parent, i)
-                self.bubbleUp(parent)
-            elif self.stateList[parent].fValue == self.stateList[i].fValue: #if fValues are equal, must tie break
-                if self.stateList[parent].gValue > self.stateList[i].gValue: #if the parent has a bigger g value, then prioritize child and swap
-                    self.swap(parent, i)
-                    self.bubbleUp(parent)
+                    self.bubbleUpBigG(parent)
                 else:
                     randomTieBreak = random.randint(0, 1)
                     if (randomTieBreak == 1):
                         self.swap(parent, i)
-                        self.bubbleUp(parent)
+                        self.bubbleUpBigG(parent)
+
+    def bubbleUpSmallG(self, i):  # tie break that prioritizes values with larger g values
+        if i <= 1:
+            return
+        else:
+            parent = math.trunc(i / 2)
+            if self.stateList[parent].fValue > self.stateList[i].fValue:
+                self.swap(parent, i)
+                self.bubbleUpSmallG(parent)
+            elif self.stateList[parent].fValue == self.stateList[i].fValue: #if fValues are equal, must tie break
+                if self.stateList[parent].gValue > self.stateList[i].gValue: #if the parent has a bigger g value, then prioritize child and swap
+                    self.swap(parent, i)
+                    self.bubbleUpSmallG(parent)
+                else:
+                    randomTieBreak = random.randint(0, 1)
+                    if (randomTieBreak == 1):
+                        self.swap(parent, i)
+                        self.bubbleUpSmallG(parent)
+
+    def bubbleDownBigG(self, i):
+        leftChild = i * 2
+        rightChild = (i * 2) + 1
+        small = i  # assumed smallest fValue
+        if len(self.stateList) > leftChild and self.stateList[leftChild].fValue < self.stateList[small].fValue:
+            small = leftChild
+        if len(self.stateList) > rightChild and self.stateList[rightChild].fValue < self.stateList[small].fValue:
+            small = rightChild
+        if len(self.stateList) > rightChild and self.stateList[rightChild].fValue == self.stateList[small].fValue:
+            if(self.stateList[rightChild].gValue > self.stateList[small].fValue):
+                small = rightChild
+        if len(self.stateList) > leftChild and self.stateList[leftChild].fValue == self.stateList[small].fValue:
+            if(self.stateList[leftChild].gValue > self.stateList[small].fValue):
+                small = leftChild
+        if small == i:
+            return
+        else:
+            self.swap(i, small)
+            self.bubbleDown(small)
