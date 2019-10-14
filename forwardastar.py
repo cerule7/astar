@@ -40,7 +40,7 @@ def traverse_grid(start_state, blockList, grid, expanded):
 
     while (not open_list.isEmpty()):
         # get lowest f score node from open list
-        current = open_list.pop()
+        current = open_list.pop('smallG')
         closed_list.append(current)
         expanded += 1
         #print('{} {} is current'.format(current.x, current.y))

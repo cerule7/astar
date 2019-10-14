@@ -38,13 +38,12 @@ for grid in gridlist:
 
     grid = hValue_gen.generate_hValue(grid, LENGTH - 1, LENGTH - 1)
 
-    [result, expanded] = runAlgorithm('forward', grid)
+    [result, expanded] = runAlgorithm('backward', grid)
     print('grid #{} expanded {}'.format(i, expanded))
     expansions.append(expanded)
     i += 1
 
-print('statistics on forward expansions for 50 grids: ')
-
+print('statistics on backward expansions for 50 grids: ')
 print('mean: {}'.format(statistics.mean(expansions)))
 print('median: {}'.format(statistics.median(expansions)))
 print('standard dev: {}'.format(statistics.stdev(expansions)))

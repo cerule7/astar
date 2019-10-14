@@ -6,19 +6,22 @@ def make_path(current):
     while (current.parent is not None and current not in path):
         path.append(current)
         current = current.parent
-    path.reverse()
     return path
 
-def traverse_grid(goal_state, blockList, grid, expanded):
-    open_list = openList(goal_state)
-    closed_list = []
-
+def traverse_grid(goal_state, agentPosition, blockList, grid, expanded):
     goal_state.set_fValue(goal_state.get_hValue())
 
+    open_list = openList(goal_state)
+    closed_list = []
+    
     neighbors = grid_generator.generate_neighbors([goal_state.x, goal_state.y])
     neighbors = [grid[n[0]][n[1]] for n in neighbors]
 
     for n in neighbors:
+        if n.isGoal:
+            n.parent = agentPosition
+            expanded += 1
+            return [blockList, make_path(n), expanded]
         if n in blockList:
             continue
         if (n.isBlock):
@@ -33,11 +36,11 @@ def traverse_grid(goal_state, blockList, grid, expanded):
 
     while (not open_list.isEmpty()):
         # get lowest f score node from open list
-        current = open_list.pop()
+        current = open_list.pop('bigG')
         closed_list.append(current)
         expanded += 1
         # if it's the goal, return path to goal
-        if (current.isGoal):
+        if (current.x == agentPosition.x and current.y == agentPosition.y):
             return [blockList, make_path(current), expanded]
 
         neighbors = grid_generator.generate_neighbors([current.x, current.y])
