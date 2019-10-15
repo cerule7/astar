@@ -60,6 +60,7 @@ class State:
 
     def setPath(self):
         self.isPath = True
+        
     def set_parent(self, par):
         self.parent = par
 

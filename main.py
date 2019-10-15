@@ -20,7 +20,7 @@ def runAlgorithm(type, grid):
 
     return [result, expanded]
 
-#load grid
+# load grid
 if (os.path.isfile('grids')):
     grid_generator.load_grid_list()
 else:
@@ -31,6 +31,7 @@ else:
 gridlist = grid_generator.get_grid_list()
 expansions = list()
 
+# pick a random grid and set up the goal and start states
 grid = gridlist[random.randint(0, 49)]
 
 grid[LENGTH - 1][LENGTH - 1].setGoal()
@@ -66,5 +67,3 @@ for algorithm in ['forward-big', 'forward-small', 'backward', 'adaptive']:
         print("")
 
     grid = grid_generator.reset(grid)
-
-
