@@ -7,14 +7,12 @@ def make_path(current):
     while (current.parent is not None and current not in path):
         path.append(current)
         current = current.parent
-    #path.reverse()
     return path
 
 
 def traverse_grid(start_state, blockList, grid, expanded, agentx, agenty):
     open_list = openList(start_state)
     closed_list = []
-    #print('starting position is {} {}'.format(start_state.x, start_state.y))
 
     start_state.set_fValue(start_state.get_hValue())
 
@@ -25,17 +23,13 @@ def traverse_grid(start_state, blockList, grid, expanded, agentx, agenty):
         if(n.x == 100 and n.y == 100):
             n.parent = start_state
             return [blockList, make_path(n), expanded]
-        #print('n position is {} {}'.format(n.x, n.y))
         if n in blockList:
-            #print('in blocklist')
             continue
         if (n.isBlock):
-            #print('added to blocklist')
             n.set_gValue(9999)
             n.set_fValue(n.get_hValue() + n.get_gValue())
             blockList.append(n)
         else:
-            #print('added to open list')
             n.set_gValue(1)
             n.set_fValue(n.get_hValue() + n.get_gValue())
             open_list.addToOpenList(n, 'bigG')
@@ -46,7 +40,7 @@ def traverse_grid(start_state, blockList, grid, expanded, agentx, agenty):
         current = open_list.pop('bigG')
         closed_list.append(current)
         expanded += 1
-        #print('{} {} is current'.format(current.x, current.y))
+
         # if it's the goal, return path to goal
         if (current.x == agentx and current.y == agenty):
             return [blockList, make_path(current), expanded]
@@ -70,6 +64,4 @@ def traverse_grid(start_state, blockList, grid, expanded, agentx, agenty):
                 n.set_gValue(new_gScore)
                 n.set_fValue(n.get_gValue() + n.get_hValue())
                 open_list.addToOpenList(n, 'bigG')
-
-
     return [blockList, "failed", expanded]

@@ -1,15 +1,24 @@
-import openList
 import hValue_gen
-import grid_generator
-import state
 import forwardastar
 import backwardastar
 import adaptiveastar
+import grid_generator
 
-def forwardAStar(start, goal, grid):
-	# print('start is {} {}'.format(start.x, start.y))
-	# print('goal is {} {}'.format(goal.x, goal.y))
+def printPath(grid, path):
+	for s in path:
+		if (not grid[s.x][s.y].isGoal and not grid[s.x][s.y].isStart):
+			grid[s.x][s.y].isPath = True
+	print("")
+	print('initial path: ')
+	for g in grid:
+		for k in g:
+			print(k.toString(), end = " ")
+		print("")
+	print("")
+	print("")
+	grid = grid_generator.reset(grid)
 
+def forwardAStar(start, tiebreaker, goal, grid):
 	truePath = []
 	agentPosition = start
 	start.set_gValue(0)
@@ -18,34 +27,28 @@ def forwardAStar(start, goal, grid):
 	start.isStart = True
 	blockedList = []
 	expanded = 1
+	count = 0
 	while (not agentPosition.isGoal):
 
-		blockedList, result, expanded = forwardastar.traverse_grid(agentPosition, blockedList, grid, expanded)
+		blockedList, result, expanded = forwardastar.traverse_grid(agentPosition, tiebreaker, blockedList, grid, expanded)
 
 		if(result == "failed"):
 			return ["failed", expanded]
 
-		#print([(s.x, s.y) for s in blockedList])
-		#print([(s.x, s.y) for s in result])
-		#print([(s.x, s.y) for s in truePath])
+		if count == 0:
+			printPath(grid, result)
+			count = 1
 
 		for position in result:
 			if(position.isBlock):
-				#print('{} {} is blocked'.format(position.x, position.y))
 				blockedList.append(position)
-				#agentPosition = position.parent
-				#print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
 				break
 			agentPosition = position
 			truePath.append(position)
-		#print(vars(agentPosition))
-
 	return [truePath, expanded]
 
-def backwardAStar(start, goal, grid):
-	#print('start is {} {}'.format(start.x, start.y))
-	#print('goal is {} {}'.format(goal.x, goal.y))
 
+def backwardAStar(start, goal, grid):
 	truePath = []
 	agentPosition = start
 	goal.set_gValue(0)
@@ -55,6 +58,7 @@ def backwardAStar(start, goal, grid):
 	blockedList = []
 	expanded = 1
 	grid = hValue_gen.generate_hValue(grid, start.x, start.y)
+	count = 0
 	while (not agentPosition.isGoal):
 		if(agentPosition.x == goal.x and agentPosition.y+1 == goal.y):
 			truePath.append(grid[agentPosition.x] [agentPosition.y+1])
@@ -69,23 +73,19 @@ def backwardAStar(start, goal, grid):
 		if(result == "failed"):
 			return ["failed", expanded]
 
-		# print([(s.x, s.y) for s in blockedList])
-		# print([(s.x, s.y) for s in result])
-		# print([(s.x, s.y) for s in truePath])
+		if count == 0:
+			printPath(grid, result)
+			count = 1
 
 		for position in result:
 			if(position.isBlock):
-				# print('{} {} is blocked'.format(position.x, position.y))
 				blockedList.append(position)
-				# agentPosition = position.parent
-				# print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
 				break
 			agentPosition = position
 
 			truePath.append(position)
-		# print(vars(agentPosition))
-
 	return [truePath, expanded]
+
 
 def adaptiveAStar(start, goal, grid):
 	truePath = []
@@ -96,6 +96,7 @@ def adaptiveAStar(start, goal, grid):
 	start.isStart = True
 	blockedList = []
 	expanded = 1
+	count = 0 
 	while (not agentPosition.isGoal):
 
 		blockedList, result, closedList, expanded = adaptiveastar.traverse_grid(agentPosition, blockedList, grid, expanded)
@@ -103,18 +104,17 @@ def adaptiveAStar(start, goal, grid):
 		if(result == "failed"):
 			return ["failed", expanded]
 
+		if count == 0:
+			printPath(grid, result)
+			count = 1
+
 		for s in closedList:
 			grid[s.x][s.y].hValue = len(result) - s.gValue
 
 		for position in result:
 			if(position.isBlock):
-				#print('{} {} is blocked'.format(position.x, position.y))
 				blockedList.append(position)
-				#agentPosition = position.parent
-				#print('{} {} is new agent position'.format(agentPosition.x, agentPosition.y))
 				break
 			agentPosition = position
 			truePath.append(position)
-		#print(vars(agentPosition))
-
 	return [truePath, expanded]
